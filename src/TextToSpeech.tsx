@@ -1,14 +1,19 @@
 import React from 'react'
 
 class TextToSpeech extends React.Component {
+    private STATE_STARTED: string = "STARTED"
+    private STATE_STOPPED: string = "STOPPED"
     private exerciseNames: string[]
     private countdown: number = 3
-    private intervalId: number;
+    private intervalId: number
+    private useAudio: boolean
 
     constructor(props: {} | Readonly<{}>) {
         super(props)
         this.exerciseNames = ["Shoot", "Drive", "Pass",]
         this.intervalId = -1
+        this.useAudio = false
+        this.state = {stateOfWorkout: this.STATE_STOPPED}
     }
 
     getRandomInt = (max: number) => {
@@ -22,30 +27,61 @@ class TextToSpeech extends React.Component {
     }
 
     speakText = (text: string) => {
-        speechSynthesis.speak(new SpeechSynthesisUtterance(text))
+        console.log(`Saying: ${text}`)
+        if (this.useAudio) {
+            speechSynthesis.speak(new SpeechSynthesisUtterance(text))
+        }
     }
 
-    resetCountdown = () => {
-        clearInterval(this.intervalId)
+    resetForNewRepetition = () => {
         this.countdown = 3
     }
 
     startWorkout = () => {
+        this.setState({stateOfWorkout: this.STATE_STARTED})
         this.intervalId = window.setInterval(() => {
+            // @ts-ignore
+            console.log(`stateOfWorkout: ${this.state.stateOfWorkout}`)
             if (this.countdown === 0) {
                 this.sayRandomExerciseName()
-                console.log('Countdown is done')
-                this.resetCountdown()
+                this.resetForNewRepetition()
+                if (this.isWorkoutStopped()) {
+                    // The stop button has been hit
+                    console.log('Stopping Countdown')
+                    clearInterval(this.intervalId)
+                }
             } else {
-                console.log('Countdown:', this.countdown)
                 this.speakText(this.countdown.toString())
                 this.countdown--
             }
         }, 1000)
     }
 
+
+
+    stopWorkout = () => {
+        this.setState({stateOfWorkout: this.STATE_STOPPED})
+    }
+
+    isWorkoutRunning = (): boolean => {
+        // @ts-ignore
+        return this.state.stateOfWorkout === this.STATE_STARTED
+    }
+
+    isWorkoutStopped = (): boolean => {
+        // @ts-ignore
+        return this.state.stateOfWorkout === this.STATE_STOPPED
+    }
+
     render() {
-        return <button onClick={this.startWorkout}>Start Workout</button>
+        return <React.Fragment>
+            <div>
+                {this.isWorkoutStopped() ? <button onClick={this.startWorkout}>Start Workout</button> : ''}
+            </div>
+            <div>
+                {this.isWorkoutRunning() ? <button onClick={this.stopWorkout}>STOP Workout</button> : '' }
+            </div>
+        </React.Fragment>
     }
 }
 
