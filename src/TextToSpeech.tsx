@@ -1,4 +1,5 @@
 import React from 'react'
+import logo from "./logo.svg";
 
 class TextToSpeech extends React.Component {
     private STATE_STARTED: string = "STARTED"
@@ -12,7 +13,7 @@ class TextToSpeech extends React.Component {
         super(props)
         this.exerciseNames = ["Shoot", "Drive", "Pass",]
         this.intervalId = -1
-        this.useAudio = false
+        this.useAudio = true
         this.state = {stateOfWorkout: this.STATE_STOPPED}
     }
 
@@ -38,6 +39,7 @@ class TextToSpeech extends React.Component {
     }
 
     startWorkout = () => {
+        this.speakText("Starting Workout")
         this.setState({stateOfWorkout: this.STATE_STARTED})
         this.intervalId = window.setInterval(() => {
             // @ts-ignore
@@ -45,19 +47,19 @@ class TextToSpeech extends React.Component {
             if (this.countdown === 0) {
                 this.sayRandomExerciseName()
                 this.resetForNewRepetition()
-                if (this.isWorkoutStopped()) {
-                    // The stop button has been hit
-                    console.log('Stopping Countdown')
-                    clearInterval(this.intervalId)
-                }
             } else {
                 this.speakText(this.countdown.toString())
                 this.countdown--
             }
+
+            if (this.isWorkoutStopped()) {
+                // The stop button has been hit
+                console.log('Stopping Countdown')
+                this.speakText("Stopped Workout")
+                clearInterval(this.intervalId)
+            }
         }, 1000)
     }
-
-
 
     stopWorkout = () => {
         this.setState({stateOfWorkout: this.STATE_STOPPED})
@@ -74,7 +76,12 @@ class TextToSpeech extends React.Component {
     }
 
     render() {
+        const logoClassNames = this.isWorkoutRunning() ? "App-logo App-logo-animate" : "App-logo"
+
         return <React.Fragment>
+
+            <img src={logo} className={logoClassNames} alt="logo"/>
+
             <div>
                 {this.isWorkoutStopped() ? <button onClick={this.startWorkout}>Start Workout</button> : ''}
             </div>
