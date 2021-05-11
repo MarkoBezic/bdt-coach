@@ -25,7 +25,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
 
     constructor(props: CounterProps) {
         super(props)
-        this.exerciseNames = ["Shoot", "Drive", "Pass",]
+        this.exerciseNames = ["Blitz", "Hard Show", "Soft Show",]
         this.intervalId = -1
         this.useAudio = true
         this.resetCounterForNewRepetition()
