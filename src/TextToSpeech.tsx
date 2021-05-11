@@ -5,7 +5,9 @@ class TextToSpeech extends React.Component {
     private STATE_STARTED: string = "STARTED"
     private STATE_STOPPED: string = "STOPPED"
     private exerciseNames: string[]
-    private countdown: number = 3
+    private secondsBetweenReps: number = 3
+    private timeoutBetweenReps: number = 7
+    private counterBetweenReps: number = this.secondsBetweenReps + this.timeoutBetweenReps
     private intervalId: number
     private useAudio: boolean
 
@@ -35,7 +37,7 @@ class TextToSpeech extends React.Component {
     }
 
     resetForNewRepetition = () => {
-        this.countdown = 3
+        this.counterBetweenReps = this.secondsBetweenReps + this.timeoutBetweenReps
     }
 
     startWorkout = () => {
@@ -44,12 +46,15 @@ class TextToSpeech extends React.Component {
         this.intervalId = window.setInterval(() => {
             // @ts-ignore
             console.log(`stateOfWorkout: ${this.state.stateOfWorkout}`)
-            if (this.countdown === 0) {
+            if (this.counterBetweenReps === 0) {
                 this.sayRandomExerciseName()
                 this.resetForNewRepetition()
             } else {
-                this.speakText(this.countdown.toString())
-                this.countdown--
+                console.log(`this.counterBetweenReps: ${this.counterBetweenReps}; this.secondsBetweenReps: ${this.secondsBetweenReps}`)
+                if(this.counterBetweenReps <= this.secondsBetweenReps) {
+                    this.speakText(this.counterBetweenReps.toString())
+                }
+                this.counterBetweenReps--
             }
 
             if (this.isWorkoutStopped()) {
