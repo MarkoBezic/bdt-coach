@@ -12,6 +12,14 @@ type CounterState = {
 
 class TextToSpeech extends React.Component<CounterProps, CounterState> {
 
+    getItemFromLocalAsString = (localStorageKey: string) => {
+        return localStorage.getItem(localStorageKey) || ''
+    }
+
+    setItemInLocal = (localStorageKey: string, value: string) => {
+        localStorage.setItem(localStorageKey, value);
+    }
+
     private exercises: string[]
     private readonly useAudio: boolean = true
 
@@ -34,6 +42,14 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
         this.intervalId = -1
         this.exercises = ["Blitz", "Hard Show", "Soft Show",]
         this.resetCounterForNewRepetition()
+    }
+
+    componentDidMount() {
+        const localstring = localStorage.getItem('bdt_secondsBetweenRepsAsString');
+        if(localstring) {
+            const secondsBetweenRepsAsInt =  parseInt(localstring)
+            this.setState({secondsBetweenRepsSetting: secondsBetweenRepsAsInt})
+        }
     }
 
     getRandomInt = (max: number) => {
@@ -103,8 +119,11 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
         return this.state.stateOfWorkout === this.STATE_STOPPED
     }
 
-    handleTimeBetweenRepsChange = (event: any) => {
-        const secondsBetweenRepsSettingInt = parseInt(event.target.value);
+    onTimeBetweenRepsChange = (event: any) => {
+        const secondsBetweenRepsSettingString = event.target.value;
+
+        const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString);
+        localStorage.setItem('bdt_secondsBetweenRepsAsString', secondsBetweenRepsSettingString);
         this.setState({secondsBetweenRepsSetting: secondsBetweenRepsSettingInt}, () => {
             this.resetCounterForNewRepetition()
         });
@@ -114,13 +133,15 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     render() {
         const logoClassNames = this.isWorkoutRunning() ? "App-logo App-logo-animate" : "App-logo"
 
+        const timerDisplay = this.state.currentTimer + 1;
+
         return <React.Fragment>
             <div>
                 <label>Time Between Reps (sec.)</label>
                 <input type="number"
                        name="secondsBetweenRepsSetting"
                        value={this.state.secondsBetweenRepsSetting}
-                       onChange={this.handleTimeBetweenRepsChange}/>
+                       onChange={this.onTimeBetweenRepsChange}/>
             </div>
 
             <img src={bball_img} className={logoClassNames} alt="logo"/>
@@ -131,7 +152,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
             }
 
             {this.isWorkoutRunning() ?
-                <div><p>Next repetition in: {this.state.currentTimer} seconds</p></div> : ''}
+                <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
             <div>
                 {this.isWorkoutStopped() ? <button onClick={this.startWorkout}>Start Workout</button> : ''}
             </div>
