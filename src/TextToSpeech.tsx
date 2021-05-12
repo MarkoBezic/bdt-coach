@@ -90,7 +90,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     }
 
     stopWorkout = () => {
-        this.setState({stateOfWorkout: this.STATE_STOPPED}, () => {
+        this.setState({stateOfWorkout: this.STATE_STOPPED, currentExercise: null}, () => {
             this.resetCounterForNewRepetition()
         })
     }
