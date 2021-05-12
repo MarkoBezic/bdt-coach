@@ -4,24 +4,29 @@ import bball_img from "./images/bball_220x220.png"
 type CounterProps = {};
 
 type CounterState = {
+    secondsBetweenRepsSetting: number;
     stateOfWorkout: string;
     currentTimer: number;
+    currentExercise: string | null;
 };
 
 class TextToSpeech extends React.Component<CounterProps, CounterState> {
 
     private exercises: string[]
-    private secondsBetweenRepsSetting: number = 5
-    private readonly useAudio: boolean = false
+    private readonly useAudio: boolean = true
 
     private STATE_STARTED: string = "STARTED"
     private STATE_STOPPED: string = "STOPPED"
+    private DEFAULT_SECONDS_BETWEEN_REPS: number = 5
+
     private announceFinalNumbers: number = 3
     private intervalId: number
 
     state: CounterState = {
         stateOfWorkout: this.STATE_STOPPED,
-        currentTimer: this.secondsBetweenRepsSetting
+        currentTimer: this.DEFAULT_SECONDS_BETWEEN_REPS,
+        secondsBetweenRepsSetting: this.DEFAULT_SECONDS_BETWEEN_REPS,
+        currentExercise: null,
     }
 
     constructor(props: CounterProps) {
@@ -38,6 +43,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     sayRandomExerciseName = () => {
         let index: number = this.getRandomInt(this.exercises.length)
         let exerciseName: string = this.exercises[index]
+        this.setState({currentExercise: exerciseName})
         this.speakText(exerciseName)
     }
 
@@ -49,7 +55,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     }
 
     resetCounterForNewRepetition = () => {
-        this.setState({currentTimer: this.secondsBetweenRepsSetting})
+        this.setState({currentTimer: this.state.secondsBetweenRepsSetting})
     }
 
     decrementTimer = () => {
@@ -84,7 +90,9 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     }
 
     stopWorkout = () => {
-        this.setState({stateOfWorkout: this.STATE_STOPPED})
+        this.setState({stateOfWorkout: this.STATE_STOPPED}, () => {
+            this.resetCounterForNewRepetition()
+        })
     }
 
     isWorkoutRunning = (): boolean => {
@@ -95,16 +103,35 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
         return this.state.stateOfWorkout === this.STATE_STOPPED
     }
 
+    handleTimeBetweenRepsChange = (event: any) => {
+        const secondsBetweenRepsSettingInt = parseInt(event.target.value);
+        this.setState({secondsBetweenRepsSetting: secondsBetweenRepsSettingInt}, () => {
+            this.resetCounterForNewRepetition()
+        });
+
+    }
+
     render() {
         const logoClassNames = this.isWorkoutRunning() ? "App-logo App-logo-animate" : "App-logo"
 
         return <React.Fragment>
+            <div>
+                <label>Time Between Reps (sec.)</label>
+                <input type="number"
+                       name="secondsBetweenRepsSetting"
+                       value={this.state.secondsBetweenRepsSetting}
+                       onChange={this.handleTimeBetweenRepsChange}/>
+            </div>
 
             <img src={bball_img} className={logoClassNames} alt="logo"/>
 
-            {this.isWorkoutRunning() ?
-                <div><p>Next repetition in: {this.state.currentTimer + 1} seconds</p></div> : ''}
+            {this.state.currentExercise && this.isWorkoutRunning()?
+                <h1>{this.state.currentExercise}</h1>
+                : ''
+            }
 
+            {this.isWorkoutRunning() ?
+                <div><p>Next repetition in: {this.state.currentTimer} seconds</p></div> : ''}
             <div>
                 {this.isWorkoutStopped() ? <button onClick={this.startWorkout}>Start Workout</button> : ''}
             </div>
