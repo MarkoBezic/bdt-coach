@@ -1,10 +1,7 @@
 import React from 'react'
 import bball_img from "./images/bball_220x220.png"
 
-type CounterProps = {
-    exercises: string[];
-    secondsBetweenRepsSetting: number;
-};
+type CounterProps = {};
 
 type CounterState = {
     stateOfWorkout: string;
@@ -13,6 +10,8 @@ type CounterState = {
 
 class TextToSpeech extends React.Component<CounterProps, CounterState> {
 
+    private exercises: string[]
+    private secondsBetweenRepsSetting: number = 5
     private readonly useAudio: boolean = false
 
     private STATE_STARTED: string = "STARTED"
@@ -22,12 +21,13 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
 
     state: CounterState = {
         stateOfWorkout: this.STATE_STOPPED,
-        currentTimer: this.props.secondsBetweenRepsSetting
+        currentTimer: this.secondsBetweenRepsSetting
     }
 
     constructor(props: CounterProps) {
         super(props)
         this.intervalId = -1
+        this.exercises = ["Blitz", "Hard Show", "Soft Show",]
         this.resetCounterForNewRepetition()
     }
 
@@ -36,9 +36,8 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     }
 
     sayRandomExerciseName = () => {
-        let exercises = this.props.exercises;
-        let index: number = this.getRandomInt(exercises.length)
-        let exerciseName: string = exercises[index]
+        let index: number = this.getRandomInt(this.exercises.length)
+        let exerciseName: string = this.exercises[index]
         this.speakText(exerciseName)
     }
 
@@ -50,7 +49,7 @@ class TextToSpeech extends React.Component<CounterProps, CounterState> {
     }
 
     resetCounterForNewRepetition = () => {
-        this.setState({currentTimer: this.props.secondsBetweenRepsSetting})
+        this.setState({currentTimer: this.secondsBetweenRepsSetting})
     }
 
     decrementTimer = () => {
