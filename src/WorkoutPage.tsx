@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
+import useStateWithLocalStorage from "./hooks/useLocalStorage";
 
-const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
+const DEFAULT_SECONDS_BETWEEN_REPS: number = 10
 const ANNOUNCE_FINAL_NUMBERS: number = 3
 
 const speakText = (text: string, useAudio: boolean) => {
@@ -13,10 +14,11 @@ const speakText = (text: string, useAudio: boolean) => {
 }
 
 function WorkoutPage(props: any) {
-    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
     const [exercises, setExercises] = useState(["Shoot", "Pass", "Drive",])
+
+    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
 
     const {secondsLeft, isRunning, start, stop} = useTimer({
         duration: secondsBetweenRepsSetting,
@@ -44,9 +46,7 @@ function WorkoutPage(props: any) {
 
     const onTimeBetweenRepsChange = (event: any) => {
         const secondsBetweenRepsSettingString = event.target.value;
-
-        const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString);
-        localStorage.setItem('bdt_secondsBetweenRepsAsString', secondsBetweenRepsSettingString);
+        const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString)
         setSecondsBetweenRepsSetting(secondsBetweenRepsSettingInt)
     }
 
@@ -62,10 +62,7 @@ function WorkoutPage(props: any) {
 
         <div>
             <label>Time Between Reps (sec.)</label>
-            <input type="number"
-                   name="secondsBetweenRepsSetting"
-                   value={secondsBetweenRepsSetting}
-                   onChange={onTimeBetweenRepsChange}/>
+            <input type="number" name="secondsBetweenRepsSetting" value={secondsBetweenRepsSetting} onChange={onTimeBetweenRepsChange}/>
         </div>
 
         <img src={bball_img} className={logoClassNames} alt="logo"/>
