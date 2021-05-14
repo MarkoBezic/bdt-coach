@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
+import useTimer from "./hooks/useTimer";
 
 const STATE_STARTED: string = "STARTED"
 const STATE_STOPPED: string = "STOPPED"
@@ -14,7 +15,7 @@ function WorkoutPage(props: any) {
     const [announceFinalNumbers, setAnnounceFinalNumbers ] = useState(3)
     const [exercises, setExercises ] = useState(["Blitz", "Hard Show", "Soft Show",])
 
-    private intervalId: number = -1
+    const {secondsLeft, isRunning, start, stop} = useTimer({ duration: DEFAULT_SECONDS_BETWEEN_REPS, onExpire: () => console.warn('onExpire called')});
 
     const getRandomInt = (max: number) => {
         return Math.floor(Math.random() * max)
@@ -50,11 +51,11 @@ function WorkoutPage(props: any) {
     }
 
     const startTimer = () => {
-        intervalId = window.setInterval(() => {
+        // intervalId = window.setInterval(() => {
             if (isWorkoutStopped()) {
                 // The stop button has been hit
                 speakText("Stopped Workout")
-                clearInterval(intervalId)
+                // clearInterval(intervalId)
             } else {
                 if (currentTimer === 0) {
                     sayRandomExerciseName()
@@ -66,7 +67,7 @@ function WorkoutPage(props: any) {
                     decrementTimer()
                 }
             }
-        }, 1000)
+        // }, 1000)
     }
 
     const stopWorkout = () => {
