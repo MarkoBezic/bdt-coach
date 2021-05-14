@@ -16,7 +16,7 @@ function WorkoutPage(props: any) {
     const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
-    const [exercises, setExercises] = useState(["Blitz", "Hard Show", "Soft Show",])
+    const [exercises, setExercises] = useState(["Shoot", "Pass", "Drive",])
 
     const {secondsLeft, isRunning, start, stop} = useTimer({
         duration: secondsBetweenRepsSetting,
@@ -55,6 +55,11 @@ function WorkoutPage(props: any) {
     const timerDisplay = secondsLeft;
 
     return <React.Fragment>
+        <div>
+            <h2>Make A Decision:</h2>
+            <h3>{exercises.join(", ")}</h3>
+        </div>
+
         <div>
             <label>Time Between Reps (sec.)</label>
             <input type="number"
