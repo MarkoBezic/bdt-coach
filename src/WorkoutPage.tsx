@@ -2,86 +2,44 @@ import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
 
-const STATE_STARTED: string = "STARTED"
-const STATE_STOPPED: string = "STOPPED"
 const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
+const ANNOUNCE_FINAL_NUMBERS: number = 3
+
+const speakText = (text: string, useAudio: boolean) => {
+    console.log(`Saying: ${text}; useAudio: ${useAudio}`)
+    if (useAudio) {
+        speechSynthesis.speak(new SpeechSynthesisUtterance(text))
+    }
+}
 
 function WorkoutPage(props: any) {
-    const [stateOfWorkout, setStateOfWorkout ] = useState(STATE_STOPPED)
-    const [currentTimer, setCurrentTimer ] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
-    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting ] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
-    const [currentExercise, setCurrentExercise ] = useState<null | string>(null)
-    const [useAudio, setUseAudio ] = useState(true)
-    const [announceFinalNumbers, setAnnounceFinalNumbers ] = useState(3)
-    const [exercises, setExercises ] = useState(["Blitz", "Hard Show", "Soft Show",])
+    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
+    const [currentExercise, setCurrentExercise] = useState<null | string>(null)
+    const [useAudio] = useState(true)
+    const [exercises, setExercises] = useState(["Blitz", "Hard Show", "Soft Show",])
 
-    const {secondsLeft, isRunning, start, stop} = useTimer({ duration: DEFAULT_SECONDS_BETWEEN_REPS, onExpire: () => console.warn('onExpire called')});
-
-    const getRandomInt = (max: number) => {
-        return Math.floor(Math.random() * max)
-    }
+    const {secondsLeft, isRunning, start, stop} = useTimer({
+        duration: secondsBetweenRepsSetting,
+        onExpire: () => sayRandomExerciseName(),
+        onTick: () => handleTick(),
+    });
 
     const sayRandomExerciseName = () => {
         let index: number = getRandomInt(exercises.length)
         let exerciseName: string = exercises[index]
         setCurrentExercise(exerciseName)
-        speakText(exerciseName)
+        speakText(exerciseName, useAudio)
     }
 
-    const speakText = (text: string) => {
-        console.log(`Saying: ${text}; useAudio: ${useAudio}`)
-        if (useAudio) {
-            speechSynthesis.speak(new SpeechSynthesisUtterance(text))
+    const handleTick = () => {
+        const sec = secondsLeft - 1
+        if(sec <= ANNOUNCE_FINAL_NUMBERS) {
+            speakText(sec.toString(), useAudio)
         }
     }
 
-    const resetCounterForNewRepetition = () => {
-        setCurrentTimer(secondsBetweenRepsSetting)
-    }
-
-    const decrementTimer = () => {
-        const leftOnTimer = currentTimer - 1
-        setCurrentTimer(leftOnTimer)
-    }
-
-    const startWorkout = () => {
-        speakText("Starting Workout")
-        setStateOfWorkout(STATE_STARTED)
-        startTimer()
-    }
-
-    const startTimer = () => {
-        // intervalId = window.setInterval(() => {
-            if (isWorkoutStopped()) {
-                // The stop button has been hit
-                speakText("Stopped Workout")
-                // clearInterval(intervalId)
-            } else {
-                if (currentTimer === 0) {
-                    sayRandomExerciseName()
-                    resetCounterForNewRepetition()
-                } else {
-                    if (currentTimer <= announceFinalNumbers) {
-                        speakText(currentTimer.toString())
-                    }
-                    decrementTimer()
-                }
-            }
-        // }, 1000)
-    }
-
-    const stopWorkout = () => {
-        setStateOfWorkout(STATE_STOPPED)
-        setCurrentExercise(null)
-        setCurrentTimer(secondsBetweenRepsSetting)
-    }
-
-    const isWorkoutRunning = (): boolean => {
-        return stateOfWorkout === STATE_STARTED
-    }
-
-    const isWorkoutStopped = (): boolean => {
-        return stateOfWorkout === STATE_STOPPED
+    const getRandomInt = (max: number) => {
+        return Math.floor(Math.random() * max)
     }
 
     const onTimeBetweenRepsChange = (event: any) => {
@@ -90,12 +48,11 @@ function WorkoutPage(props: any) {
         const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString);
         localStorage.setItem('bdt_secondsBetweenRepsAsString', secondsBetweenRepsSettingString);
         setSecondsBetweenRepsSetting(secondsBetweenRepsSettingInt)
-        resetCounterForNewRepetition()
     }
 
-    const logoClassNames = isWorkoutRunning() ? "App-logo App-logo-animate" : "App-logo"
+    const logoClassNames = isRunning ? "App-logo App-logo-animate" : "App-logo"
 
-    const timerDisplay = currentTimer + 1;
+    const timerDisplay = secondsLeft;
 
     return <React.Fragment>
         <div>
@@ -108,19 +65,13 @@ function WorkoutPage(props: any) {
 
         <img src={bball_img} className={logoClassNames} alt="logo"/>
 
-        {currentExercise && isWorkoutRunning()?
-            <h1>{currentExercise}</h1>
-            : ''
-        }
+        {currentExercise && isRunning ? <h1>{currentExercise}</h1> : ''}
 
-        {isWorkoutRunning() ?
-            <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
-        <div>
-            {isWorkoutStopped() ? <button onClick={startWorkout}>Start Workout</button> : ''}
-        </div>
-        <div>
-            {isWorkoutRunning() ? <button onClick={stopWorkout}>STOP Workout</button> : ''}
-        </div>
+        {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
+
+        {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
+
+        {isRunning ? <div><button onClick={stop}>STOP Workout</button></div> : ''}
     </React.Fragment>
 }
 

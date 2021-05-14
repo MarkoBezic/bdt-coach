@@ -6,4 +6,12 @@ export default class Validate {
     }
     return isValid
   }
+
+  static onTick(onTick) {
+    const isValid = onTick && typeof onTick === 'function'
+    if (onTick && !isValid) {
+      console.warn('bdt-coach: { useTimer } Invalid onTick settings function', onTick)
+    }
+    return isValid
+  }
 }
