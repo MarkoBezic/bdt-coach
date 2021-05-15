@@ -5,7 +5,7 @@ export default function useStateWithLocalStorage(localStorageKey, initialState) 
   const valueAsObject = JSON.parse(itemFromStorage)
 
   function setItem(item) {
-    if(!Number.isNaN(item)) {
+    if(!isNaN(item)) {
       const valueAsString = JSON.stringify(item)
       localStorage.setItem(localStorageKey, valueAsString);
     }

@@ -8,7 +8,6 @@ export default function useTimer({ duration: timerDuration, onExpire, onTick}) {
 
   function start() {
     setIsRunning(true)
-    setSecondsLeft(timerDuration)
   }
   function stop() {
     setIsRunning(false)

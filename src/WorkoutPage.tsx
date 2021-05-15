@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
-import useStateWithLocalStorage from "./hooks/useLocalStorage";
 
 const DEFAULT_SECONDS_BETWEEN_REPS: number = 10
 const ANNOUNCE_FINAL_NUMBERS: number = 3
@@ -24,7 +23,7 @@ function WorkoutPage(props: any) {
         duration: secondsBetweenRepsSetting,
         onExpire: () => sayRandomExerciseName(),
         onTick: () => handleTick(),
-    });
+    })
 
     const sayRandomExerciseName = () => {
         let index: number = getRandomInt(exercises.length)
