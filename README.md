@@ -1,3 +1,9 @@
+# Deploying to Netlify
+```
+$ yarn build && netlify deploy --prod
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
