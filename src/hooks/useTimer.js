@@ -11,6 +11,7 @@ export default function useTimer({ duration: timerDuration, onExpire, onTick}) {
   }
   function stop() {
     setIsRunning(false)
+    setSecondsLeft(timerDuration)
   }
 
   function handleExpire() {
@@ -28,5 +29,5 @@ export default function useTimer({ duration: timerDuration, onExpire, onTick}) {
     }
   }, isRunning ? 1000 : null)
 
-  return {secondsLeft, isRunning, start, stop, }
+  return {secondsLeft, setSecondsLeft, isRunning, start, stop, }
 }

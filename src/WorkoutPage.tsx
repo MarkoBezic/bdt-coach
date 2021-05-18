@@ -19,7 +19,7 @@ function WorkoutPage(props: any) {
 
     const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
 
-    const {secondsLeft, isRunning, start, stop} = useTimer({
+    const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
         duration: secondsBetweenRepsSetting,
         onExpire: () => sayRandomExerciseName(),
         onTick: () => handleTick(),
@@ -47,6 +47,12 @@ function WorkoutPage(props: any) {
         const secondsBetweenRepsSettingString = event.target.value;
         const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString)
         setSecondsBetweenRepsSetting(secondsBetweenRepsSettingInt)
+        setSecondsLeft(secondsBetweenRepsSettingInt)
+    }
+
+    const stopWorkout = (event: any) => {
+        stop()
+        setCurrentExercise(null)
     }
 
     const logoClassNames = isRunning ? "App-logo App-logo-animate" : "App-logo"
@@ -72,7 +78,7 @@ function WorkoutPage(props: any) {
 
         {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
 
-        {isRunning ? <div><button onClick={stop}>STOP Workout</button></div> : ''}
+        {isRunning ? <div><button onClick={stopWorkout}>STOP Workout</button></div> : ''}
     </React.Fragment>
 }
 
