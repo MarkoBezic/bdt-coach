@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
 
-const DEFAULT_SECONDS_BETWEEN_REPS: number = 10
+const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
 const ANNOUNCE_FINAL_NUMBERS: number = 3
 
 const speakText = (text: string, useAudio: boolean) => {
@@ -61,8 +61,13 @@ function WorkoutPage(props: any) {
 
     return <React.Fragment>
         <div>
-            <h2>Make A Decision:</h2>
-            <h3>{exercises.join(", ")}</h3>
+
+            <h1>Basketball Decision Trainer</h1>
+            <h2>The Ultimate 1v0 Tool to Help you Practice Decision Making.</h2>
+            <hr/>
+            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a scissor dribble as the timer counts down.  Once the timer runs out, execute the command given to you as quickly as you can. Then perform a different static dribble awaiting for your next command.</h4>
+
+            <h3>Decisions: {exercises.join(", ")}</h3>
         </div>
 
         <div>

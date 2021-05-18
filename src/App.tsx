@@ -5,7 +5,6 @@ import WorkoutPage from "./WorkoutPage";
 function App() {
     return (
         <div className="App">
-
             <WorkoutPage/>
         </div>
     );
