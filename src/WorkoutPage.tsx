@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
 const ANNOUNCE_FINAL_NUMBERS: number = 3
@@ -17,7 +18,7 @@ function WorkoutPage(props: any) {
     const [useAudio] = useState(true)
     const [exercises, setExercises] = useState(["Shoot", "Pass", "Drive",])
 
-    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useState(DEFAULT_SECONDS_BETWEEN_REPS)
+    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useLocalStorage('bdt_rep_duration', DEFAULT_SECONDS_BETWEEN_REPS)
 
     const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
         duration: secondsBetweenRepsSetting,
