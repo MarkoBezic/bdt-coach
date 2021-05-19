@@ -1,6 +1,6 @@
 # Deploying to Netlify
 ```
-$ yarn build && netlify deploy --prod
+$ yarn deploy:production
 ```
 
 
