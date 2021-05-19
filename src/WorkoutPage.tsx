@@ -62,11 +62,10 @@ function WorkoutPage(props: any) {
 
     return <React.Fragment>
         <div>
-
             <h1>Basketball Decision Trainer</h1>
-            <h2>The Ultimate 1v0 Tool to Help you Practice Decision Making.</h2>
+            <h2>Practice Your Decision Making When You're Working Out Alone</h2>
             <hr/>
-            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform scissor dribbles while the timer counts down.  Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4>
+            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4>
 
             <h3>Decisions: {exercises.join(", ")}</h3>
         </div>
