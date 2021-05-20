@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import bball_img from "./images/bball_220x220.png"
 import useTimer from "./hooks/useTimer";
 import useLocalStorage from "./hooks/useLocalStorage";
+import SectionNavbar from "./components/SectionNavbar";
+import { Link } from 'react-router-dom';
 
 const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
 const ANNOUNCE_FINAL_NUMBERS: number = 3
@@ -61,13 +63,15 @@ function WorkoutPage(props: any) {
     const timerDisplay = secondsLeft;
 
     return <React.Fragment>
+        <SectionNavbar />
         <div>
             <h1>Basketball Decision Trainer</h1>
             <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
             <hr/>
             <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4>
 
-            <h3>Decisions: {exercises.join(", ")}</h3>
+            <h3>Decisions: {exercises.join(", ")} <Link to="/exercises">(edit)</Link></h3>
+
         </div>
 
         <div>
