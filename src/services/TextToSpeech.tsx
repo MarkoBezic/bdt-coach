@@ -4,7 +4,6 @@ export default class TextToSpeech {
         if (useAudio) {
             try {
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.volume = 7;
                 speechSynthesis.speak(utterance)
             } catch(e) {
                 console.log('Caught error')
@@ -12,3 +11,6 @@ export default class TextToSpeech {
             }
         }
     }
+}
+
+
