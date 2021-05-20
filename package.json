@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^5.1.7",
     "enable-auto-tts": "^0.1.2",
     "react": "^17.0.2",
+    "react-crud-table": "^0.3.1",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",

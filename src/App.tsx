@@ -6,6 +6,7 @@ import {Switch, Route} from "react-router-dom";
 import ExercisesPage from "./pages/ExercisesPage";
 
 import { enableAutoTTS } from 'enable-auto-tts';
+import AdminPage from "./pages/AdminPage";
 
 enableAutoTTS();
 
@@ -13,6 +14,10 @@ function App() {
     return (
         <React.Fragment>
             <Switch>
+                <Route path="/admin">
+                    <AdminPage/>
+                </Route>
+
                 <Route path="/exercises">
                     <ExercisesPage/>
                 </Route>
