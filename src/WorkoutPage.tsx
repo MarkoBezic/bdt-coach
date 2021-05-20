@@ -1,17 +1,16 @@
 import React, {useState} from 'react'
-import bball_img from "./images/bball_220x220.png"
+
+import {DEFAULT_EXERCISES_ARR, DEFAULT_SECONDS_BETWEEN_REPS, FINAL_NUMBERS_TO_SPEAK} from "./AppDefaults";
+
 import useTimer from "./hooks/useTimer";
 import useLocalStorage from "./hooks/useLocalStorage";
-import SectionNavbar from "./components/SectionNavbar";
-import { Link } from 'react-router-dom';
-import {FINAL_NUMBERS_TO_SPEAK, DEFAULT_EXERCISES_ARR, DEFAULT_SECONDS_BETWEEN_REPS} from "./AppDefaults";
 
-const speakText = (text: string, useAudio: boolean) => {
-    console.log(`Saying: ${text}; useAudio: ${useAudio}`)
-    if (useAudio) {
-        speechSynthesis.speak(new SpeechSynthesisUtterance(text))
-    }
-}
+import SectionNavbar from "./components/SectionNavbar";
+import {Link} from 'react-router-dom';
+
+import TextToSpeech from "./services/TextToSpeech";
+
+import bball_img from "./images/bball_220x220.png"
 
 function WorkoutPage(props: any) {
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
@@ -30,13 +29,13 @@ function WorkoutPage(props: any) {
         let index: number = getRandomInt(exercises.length)
         let exerciseName: string = exercises[index]
         setCurrentExercise(exerciseName)
-        speakText(exerciseName, useAudio)
+        TextToSpeech.speakText(exerciseName, useAudio)
     }
 
     const handleTick = () => {
         const sec = secondsLeft - 1
         if(sec <= FINAL_NUMBERS_TO_SPEAK) {
-            speakText(sec.toString(), useAudio)
+            TextToSpeech.speakText(sec.toString(), useAudio)
         }
     }
 
