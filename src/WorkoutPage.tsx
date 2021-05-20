@@ -15,7 +15,7 @@ import bball_img from "./images/bball_220x220.png"
 function WorkoutPage(props: any) {
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
-    const [exercises, setExercises] = useLocalStorage('bdt_exercises_arr', DEFAULT_EXERCISES_ARR)
+    const [exercises, ] = useLocalStorage('bdt_exercises_arr', DEFAULT_EXERCISES_ARR)
 
     const [repDuration, setRepDuration] = useLocalStorage('bdt_rep_duration_int', DEFAULT_SECONDS_BETWEEN_REPS)
 
@@ -65,7 +65,8 @@ function WorkoutPage(props: any) {
             <h1>Basketball Decision Trainer</h1>
             <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
             <hr/>
-            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4>
+            {!isRunning ?
+            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4> : ''}
 
             <h3>Decisions: {exercises.join(", ")} <Link to="/exercises">(edit)</Link></h3>
 
@@ -76,8 +77,6 @@ function WorkoutPage(props: any) {
             <input type="number" name="secondsBetweenRepsSetting" value={repDuration} onChange={onTimeBetweenRepsChange}/>
         </div>
 
-        <img src={bball_img} className={logoClassNames} alt="logo"/>
-
         {currentExercise && isRunning ? <h1>{currentExercise}</h1> : ''}
 
         {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
@@ -85,6 +84,10 @@ function WorkoutPage(props: any) {
         {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
 
         {isRunning ? <div><button onClick={stopWorkout}>STOP Workout</button></div> : ''}
+
+        <div>
+            <img src={bball_img} className={logoClassNames} alt="logo"/>
+        </div>
     </React.Fragment>
 }
 

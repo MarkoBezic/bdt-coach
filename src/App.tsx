@@ -5,6 +5,10 @@ import WorkoutPage from "./WorkoutPage";
 import {Switch, Route} from "react-router-dom";
 import ExercisesPage from "./pages/ExercisesPage";
 
+import { enableAutoTTS } from 'enable-auto-tts';
+
+enableAutoTTS();
+
 function App() {
     return (
         <React.Fragment>
