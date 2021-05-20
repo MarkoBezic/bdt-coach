@@ -46,3 +46,7 @@ body {
 .m-auto {
   margin: auto;
 }
+
+a.active {
+  font-weight: bolder;
+}
