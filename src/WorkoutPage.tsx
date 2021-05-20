@@ -4,9 +4,7 @@ import useTimer from "./hooks/useTimer";
 import useLocalStorage from "./hooks/useLocalStorage";
 import SectionNavbar from "./components/SectionNavbar";
 import { Link } from 'react-router-dom';
-
-const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
-const ANNOUNCE_FINAL_NUMBERS: number = 3
+import {FINAL_NUMBERS_TO_SPEAK, DEFAULT_EXERCISES_ARR, DEFAULT_SECONDS_BETWEEN_REPS} from "./AppDefaults";
 
 const speakText = (text: string, useAudio: boolean) => {
     console.log(`Saying: ${text}; useAudio: ${useAudio}`)
@@ -18,12 +16,12 @@ const speakText = (text: string, useAudio: boolean) => {
 function WorkoutPage(props: any) {
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
-    const [exercises, setExercises] = useState(["Shoot", "Pass", "Drive",])
+    const [exercises, setExercises] = useLocalStorage('bdt_exercises_arr', DEFAULT_EXERCISES_ARR)
 
-    const [secondsBetweenRepsSetting, setSecondsBetweenRepsSetting] = useLocalStorage('bdt_rep_duration', DEFAULT_SECONDS_BETWEEN_REPS)
+    const [repDuration, setRepDuration] = useLocalStorage('bdt_rep_duration_int', DEFAULT_SECONDS_BETWEEN_REPS)
 
     const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
-        duration: secondsBetweenRepsSetting,
+        duration: repDuration,
         onExpire: () => sayRandomExerciseName(),
         onTick: () => handleTick(),
     })
@@ -37,7 +35,7 @@ function WorkoutPage(props: any) {
 
     const handleTick = () => {
         const sec = secondsLeft - 1
-        if(sec <= ANNOUNCE_FINAL_NUMBERS) {
+        if(sec <= FINAL_NUMBERS_TO_SPEAK) {
             speakText(sec.toString(), useAudio)
         }
     }
@@ -49,7 +47,7 @@ function WorkoutPage(props: any) {
     const onTimeBetweenRepsChange = (event: any) => {
         const secondsBetweenRepsSettingString = event.target.value;
         const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString)
-        setSecondsBetweenRepsSetting(secondsBetweenRepsSettingInt)
+        setRepDuration(secondsBetweenRepsSettingInt)
         setSecondsLeft(secondsBetweenRepsSettingInt)
     }
 
@@ -76,7 +74,7 @@ function WorkoutPage(props: any) {
 
         <div>
             <label>Time Between Reps (sec.)</label>
-            <input type="number" name="secondsBetweenRepsSetting" value={secondsBetweenRepsSetting} onChange={onTimeBetweenRepsChange}/>
+            <input type="number" name="secondsBetweenRepsSetting" value={repDuration} onChange={onTimeBetweenRepsChange}/>
         </div>
 
         <img src={bball_img} className={logoClassNames} alt="logo"/>
