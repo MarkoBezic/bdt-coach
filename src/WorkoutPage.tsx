@@ -19,7 +19,7 @@ import bball_img from "./images/bball_220x220.png"
 function WorkoutPage(props: any) {
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
-    const [exercises, ] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
+    const [exercises,] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
 
     const [repDuration, setRepDuration] = useLocalStorage(LOCAL_STORAGE_KEY_DURATION, DEFAULT_SECONDS_BETWEEN_REPS)
 
@@ -31,14 +31,15 @@ function WorkoutPage(props: any) {
 
     const sayRandomExerciseName = () => {
         let index: number = getRandomInt(exercises.length)
-        let exerciseName: string = exercises[index]
+        const exercise: Exercise = exercises[index]
+        let exerciseName: string = exercise.name
         setCurrentExercise(exerciseName)
         TextToSpeech.speakText(exerciseName, useAudio)
     }
 
     const handleTick = () => {
         const sec = secondsLeft - 1
-        if(sec <= FINAL_NUMBERS_TO_SPEAK) {
+        if (sec <= FINAL_NUMBERS_TO_SPEAK) {
             TextToSpeech.speakText(sec.toString(), useAudio)
         }
     }
@@ -64,30 +65,41 @@ function WorkoutPage(props: any) {
     const timerDisplay = secondsLeft;
 
     return <React.Fragment>
-        <SectionNavbar />
+        <SectionNavbar/>
         <div>
             <h1>Basketball Decision Trainer</h1>
             <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
             <hr/>
             {!isRunning ?
-            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4> : ''}
+                <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive
+                    dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the
+                    decision given to you as quickly as you can. Then perform a different dribble awaiting for your next
+                    rep.</h4> : ''}
 
-            <h3>Decisions: {exercises.join(", ")} <Link to="/exercises">(edit)</Link></h3>
+            <h3>Decisions: {exercises.map((exercise: Exercise) => {
+                return <div>{exercise.name}</div>
+            })}
+                <Link to="/exercises">(edit)</Link></h3>
 
         </div>
 
         <div>
             <label>Time Between Reps (sec.)</label>
-            <input type="number" name="secondsBetweenRepsSetting" value={repDuration} onChange={onTimeBetweenRepsChange}/>
+            <input type="number" name="secondsBetweenRepsSetting" value={repDuration}
+                   onChange={onTimeBetweenRepsChange}/>
         </div>
 
         {currentExercise && isRunning ? <h1>{currentExercise}</h1> : ''}
 
         {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
 
-        {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
+        {!isRunning ? <div>
+            <button onClick={start}>Start Workout</button>
+        </div> : ''}
 
-        {isRunning ? <div><button onClick={stopWorkout}>STOP Workout</button></div> : ''}
+        {isRunning ? <div>
+            <button onClick={stopWorkout}>STOP Workout</button>
+        </div> : ''}
 
         <div>
             <img src={bball_img} className={logoClassNames} alt="logo"/>
