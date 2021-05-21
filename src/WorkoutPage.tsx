@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 
 import {
-    DEFAULT_EXERCISES_ARR,
-    DEFAULT_SECONDS_BETWEEN_REPS,
+    DEFAULT_EXERCISES_ARR, INITIAL_SECONDS_BETWEEN_REPS,
     FINAL_NUMBERS_TO_SPEAK
 } from "./AppDefaults";
 
@@ -17,14 +16,12 @@ import TextToSpeech from "./services/TextToSpeech";
 import bball_img from "./images/bball_220x220.png"
 
 function WorkoutPage(props: any) {
-    const [currentExercise, setCurrentExercise] = useState<null | string>(null)
+    const [currentExercise, setCurrentExercise] = useState<null | Exercise>(null)
     const [useAudio] = useState(true)
     const [exercises,] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
 
-    const [repDuration, setRepDuration] = useLocalStorage(LOCAL_STORAGE_KEY_DURATION, DEFAULT_SECONDS_BETWEEN_REPS)
-
     const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
-        duration: repDuration,
+        duration: INITIAL_SECONDS_BETWEEN_REPS,
         onExpire: () => sayRandomExerciseName(),
         onTick: () => handleTick(),
     })
@@ -33,8 +30,9 @@ function WorkoutPage(props: any) {
         let index: number = getRandomInt(exercises.length)
         const exercise: Exercise = exercises[index]
         let exerciseName: string = exercise.name
-        setCurrentExercise(exerciseName)
         TextToSpeech.speakText(exerciseName, useAudio)
+        setCurrentExercise(exercise)
+        setSecondsLeft(exercise.rep_duration)
     }
 
     const handleTick = () => {
@@ -46,13 +44,6 @@ function WorkoutPage(props: any) {
 
     const getRandomInt = (max: number) => {
         return Math.floor(Math.random() * max)
-    }
-
-    const onTimeBetweenRepsChange = (event: any) => {
-        const secondsBetweenRepsSettingString = event.target.value;
-        const secondsBetweenRepsSettingInt = parseInt(secondsBetweenRepsSettingString)
-        setRepDuration(secondsBetweenRepsSettingInt)
-        setSecondsLeft(secondsBetweenRepsSettingInt)
     }
 
     const stopWorkout = (event: any) => {
@@ -83,13 +74,7 @@ function WorkoutPage(props: any) {
 
         </div>
 
-        <div>
-            <label>Time Between Reps (sec.)</label>
-            <input type="number" name="secondsBetweenRepsSetting" value={repDuration}
-                   onChange={onTimeBetweenRepsChange}/>
-        </div>
-
-        {currentExercise && isRunning ? <h1>{currentExercise}</h1> : ''}
+        {currentExercise && isRunning ? <h1>{currentExercise.name}</h1> : ''}
 
         {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
 
@@ -101,7 +86,7 @@ function WorkoutPage(props: any) {
             <button onClick={stopWorkout}>STOP Workout</button>
         </div> : ''}
 
-        <div>
+        <div className="bballBackground" style={{backgroundColor: currentExercise?.color}}>
             <img src={bball_img} className={logoClassNames} alt="logo"/>
         </div>
     </React.Fragment>

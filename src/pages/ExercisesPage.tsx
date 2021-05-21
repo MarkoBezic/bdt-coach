@@ -12,7 +12,7 @@ export default function ExercisesPage(props: any) {
         <div>
             <h3>Exercises:</h3>
             { exercises.map((exercise: Exercise, index: number) => {
-                const exerciseDiv = <div>{exercise.name} - {exercise.rep_duration}sec. - <span style={{"color": exercise.color}}>{exercise.color}</span></div>
+                const exerciseDiv = <div>{exercise.name} - {exercise.rep_duration}sec. - <span style={{backgroundColor: exercise.color}}>{exercise.color}</span></div>
                 return exerciseDiv
             })}
         </div>

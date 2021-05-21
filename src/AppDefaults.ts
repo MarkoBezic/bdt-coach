@@ -1,5 +1,4 @@
-export const DEFAULT_SECONDS_BETWEEN_REPS: number = 5
-export const DEFAULT_EXERCISES_ARR_OLD: Array<string> = ["Shoot", "Pass", "Drive",]
+export const INITIAL_SECONDS_BETWEEN_REPS: number = 5
 export const DEFAULT_EXERCISES_ARR: Array<Exercise> = [
     {
         id: 1,
