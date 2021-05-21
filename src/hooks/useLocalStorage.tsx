@@ -1,5 +1,8 @@
 import {useEffect, useState} from "react";
 
+export const LOCAL_STORAGE_KEY_EXERCISES = 'bdt_exercises_arr'
+export const LOCAL_STORAGE_KEY_DURATION = 'bdt_rep_duration_int'
+
 export default function useLocalStorage(localStorageKey: string, initialState: any) {
     useState(localStorageKey)
     const item: string = localStorage.getItem(localStorageKey) || JSON.stringify(initialState)

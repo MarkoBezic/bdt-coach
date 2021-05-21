@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 
-import {DEFAULT_EXERCISES_ARR, DEFAULT_SECONDS_BETWEEN_REPS, FINAL_NUMBERS_TO_SPEAK} from "./AppDefaults";
+import {
+    DEFAULT_EXERCISES_ARR,
+    DEFAULT_SECONDS_BETWEEN_REPS,
+    FINAL_NUMBERS_TO_SPEAK
+} from "./AppDefaults";
 
 import useTimer from "./hooks/useTimer";
-import useLocalStorage from "./hooks/useLocalStorage";
+import useLocalStorage, {LOCAL_STORAGE_KEY_DURATION, LOCAL_STORAGE_KEY_EXERCISES} from "./hooks/useLocalStorage";
 
 import SectionNavbar from "./components/SectionNavbar";
 import {Link} from 'react-router-dom';
@@ -15,9 +19,9 @@ import bball_img from "./images/bball_220x220.png"
 function WorkoutPage(props: any) {
     const [currentExercise, setCurrentExercise] = useState<null | string>(null)
     const [useAudio] = useState(true)
-    const [exercises, ] = useLocalStorage('bdt_exercises_arr', DEFAULT_EXERCISES_ARR)
+    const [exercises, ] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
 
-    const [repDuration, setRepDuration] = useLocalStorage('bdt_rep_duration_int', DEFAULT_SECONDS_BETWEEN_REPS)
+    const [repDuration, setRepDuration] = useLocalStorage(LOCAL_STORAGE_KEY_DURATION, DEFAULT_SECONDS_BETWEEN_REPS)
 
     const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
         duration: repDuration,

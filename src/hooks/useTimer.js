@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Validate from "../utils/Validate";
+import Validate from "../services/Validate";
 import useInterval from "./useInterval";
 
 export default function useTimer({ duration: timerDuration, onExpire, onTick}) {
