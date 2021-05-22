@@ -3,11 +3,14 @@ import CRUDTable,
 {Fields, Field, CreateForm, UpdateForm, DeleteForm,
 } from 'react-crud-table';
 
+import { v4 as uuidv4 } from 'uuid';
+
 // Component's Base CSS
 import '../index.css';
 import './AdminPage.css';
 import SectionNavbar from "../components/SectionNavbar";
 import {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
+import {EXPLAIN_REP_DURATION} from "../AppDefaults";
 
 export default function AdminPage() {
 
@@ -41,7 +44,6 @@ export default function AdminPage() {
     return sorter;
   };
 
-  let count = exercises.length;
   const service = {
     fetchItems: (payload) => {
       storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES)
@@ -52,10 +54,9 @@ export default function AdminPage() {
       return Promise.resolve(result);
     },
     create: (exercise) => {
-      count += 1;
       exercises.push({
         ...exercise,
-        id: count,
+        id: uuidv4(),
       });
 
       saveExercises(exercises)
@@ -90,9 +91,9 @@ export default function AdminPage() {
     <SectionNavbar />
     <CRUDTable caption="Exercises" fetchItems={payload => service.fetchItems(payload)}>
       <Fields>
-        <Field name="id" label="Id" hideInCreateForm hideInUpdateForm readOnly/>
+        <Field name="id" label="Id" hideFromTable hideInCreateForm hideInUpdateForm readOnly/>
         <Field name="name" label="Name" placeholder="Name"/>
-        <Field name="rep_duration" label="Rep Duration (sec.)" placeholder="How long does this rep last?"/>
+        <Field name="rep_duration" label="Rep Duration (sec.)" placeholder={EXPLAIN_REP_DURATION}/>
         <Field name="color" label="Color" placeholder="#F00"/>
       </Fields>
 
@@ -101,11 +102,11 @@ export default function AdminPage() {
         validate={(values) => {
           const errors = {};
           if (!values.name) {
-            errors.name = 'Please, provide exercise\'s name';
+            errors.name = 'Please provide the exercise\'s name';
           }
 
           if (!values.rep_duration) {
-            errors.rep_duration = 'Please, provide the rep duration';
+            errors.rep_duration = 'Please provide a rep duration';
           }
 
           return errors;
@@ -117,16 +118,12 @@ export default function AdminPage() {
         validate={(values) => {
           const errors = {};
 
-          if (!values.id) {
-            errors.id = 'Please, provide id';
-          }
-
           if (!values.name) {
-            errors.name = 'Please, provide exercise\'s name';
+            errors.name = 'Please provide the exercise\'s name';
           }
 
           if (!values.rep_duration) {
-            errors.rep_duration = 'Please, provide exercise\'s rep duration';
+            errors.rep_duration = 'Please provide a rep duration';
           }
 
           return errors;
