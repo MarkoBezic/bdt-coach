@@ -2,20 +2,20 @@ import React, {useState} from 'react'
 
 import {
     DEFAULT_EXERCISES_ARR, INITIAL_SECONDS_BETWEEN_REPS,
-    FINAL_NUMBERS_TO_SPEAK
-} from "./AppDefaults";
+    FINAL_NUMBERS_TO_SPEAK, URL_EXERCISES
+} from "../AppDefaults";
 
-import useTimer from "./hooks/useTimer";
-import useLocalStorage, {LOCAL_STORAGE_KEY_DURATION, LOCAL_STORAGE_KEY_EXERCISES} from "./hooks/useLocalStorage";
+import useTimer from "../hooks/useTimer";
+import useLocalStorage, {LOCAL_STORAGE_KEY_DURATION, LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
 
-import SectionNavbar from "./components/SectionNavbar";
+import SectionNavbar from "../components/SectionNavbar";
 import {Link} from 'react-router-dom';
 
-import TextToSpeech from "./services/TextToSpeech";
+import TextToSpeech from "../services/TextToSpeech";
 
-import bball_img from "./images/bball_220x220.png"
+import bball_img from "../images/bball_220x220.png"
 
-function WorkoutPage(props: any) {
+function WorkoutPage() {
     const [currentExercise, setCurrentExercise] = useState<null | Exercise>(null)
     const [useAudio] = useState(true)
     const [exercises,] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
@@ -58,20 +58,10 @@ function WorkoutPage(props: any) {
     return <React.Fragment>
         <SectionNavbar/>
         <div>
-            <h1>Basketball Decision Trainer</h1>
-            <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
-            <hr/>
-            {!isRunning ?
-                <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive
-                    dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the
-                    decision given to you as quickly as you can. Then perform a different dribble awaiting for your next
-                    rep.</h4> : ''}
-
             <h3>Decisions: {exercises.map((exercise: Exercise) => {
                 return <div>{exercise.name}</div>
             })}
-                <Link to="/exercises">(edit)</Link></h3>
-
+                <Link to={URL_EXERCISES}>(edit)</Link></h3>
         </div>
 
         {currentExercise && isRunning ? <h1>{currentExercise.name}</h1> : ''}

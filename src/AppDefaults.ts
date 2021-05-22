@@ -1,3 +1,8 @@
+export const URL_HOME = "/"
+export const URL_WORKOUT = "/workout"
+export const URL_EXERCISES = "/exercises"
+
+
 export const INITIAL_SECONDS_BETWEEN_REPS: number = 5
 export const DEFAULT_EXERCISES_ARR: Array<Exercise> = [
     {
