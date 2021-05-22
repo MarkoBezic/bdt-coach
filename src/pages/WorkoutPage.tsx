@@ -65,21 +65,18 @@ function WorkoutPage() {
                 <Link to={URL_EXERCISES}>(edit)</Link></h3>
         </div>
 
-        {currentExercise && isRunning ? <h1>{currentExercise.name}</h1> : ''}
-
         {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
 
-        {!isRunning ? <div>
-            <button onClick={start}>Start Workout</button>
-        </div> : ''}
+        {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
 
-        {isRunning ? <div>
-            <button onClick={stopWorkout}>STOP Workout</button>
-        </div> : ''}
+        {isRunning ? <div><button onClick={stopWorkout}>STOP Workout</button></div> : ''}
+
+        {currentExercise && isRunning ? <h1>{currentExercise.name}</h1> : ''}
 
         <div className="bballBackground" style={{backgroundColor: currentExercise?.color}}>
             <img src={bball_img} className={logoClassNames} alt="logo"/>
         </div>
+
     </React.Fragment>
 }
 
