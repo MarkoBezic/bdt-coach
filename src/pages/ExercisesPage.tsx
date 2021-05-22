@@ -10,7 +10,7 @@ export default function ExercisesPage(props: any) {
     return <React.Fragment>
         <SectionNavbar />
         <div>
-            <h3>Exercises:</h3>
+            <h3>Exercises</h3>
             { exercises.map((exercise: Exercise, index: number) => {
                 const exerciseDiv = <div>{exercise.name} - {exercise.rep_duration}sec. - <span style={{backgroundColor: exercise.color}}>{exercise.color}</span></div>
                 return exerciseDiv

@@ -57,6 +57,7 @@ function WorkoutPage() {
 
     return <React.Fragment>
         <SectionNavbar/>
+        <h3>Work Out</h3>
         <div>
             <h3>Decisions: {exercises.map((exercise: Exercise) => {
                 return <div>{exercise.name}</div>

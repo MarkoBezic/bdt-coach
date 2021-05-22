@@ -14,8 +14,10 @@ function HowItWorksPage() {
             <hr/>
             <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move (ie. scissor dribble) while the timer counts down. Once the timer runs out, execute the decision given to you as quickly as you can. Then perform a different dribble awaiting for your next rep.</h4>
         </div>
+        <br/>
+        <br/>
         <div>
-            <Link to={URL_WORKOUT}>Try a Workout</Link>
+            <Link to={URL_WORKOUT}>Start Your First Workout</Link>
         </div>
     </React.Fragment>
 }
