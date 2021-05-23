@@ -70,8 +70,6 @@ function WorkoutPage() {
         <br/>
         <br/>
 
-        {isRunning ? <div><p>Next rep in: {timerDisplay} seconds</p></div> : ''}
-
         {!isRunning ? <div>
             <button onClick={start}>Start Workout</button>
         </div> : ''}
@@ -79,6 +77,8 @@ function WorkoutPage() {
         {isRunning ? <div>
             <button onClick={stopWorkout}>STOP Workout</button>
         </div> : ''}
+
+        {isRunning ? <div><p>Next rep in: {timerDisplay} seconds</p></div> : ''}
 
         <div className="bballBackground" style={{backgroundColor: currentExercise?.color}}>
             <img src={bball_img} className={logoClassNames} alt="logo"/>
