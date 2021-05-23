@@ -12,16 +12,25 @@ function HowItWorksPage() {
             <h1>Basketball Decision Trainer</h1>
             <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
             <hr/>
-            <h4 className="text-center w-400px m-auto">Directions: Put your headphones on and perform a repetitive dribble move while the timer counts down (ie. <a target="_blank" rel="nofollow noreferrer noopener" href="https://www.youtube.com/watch?v=D2hhRG2Hda4?t=30">scissor dribble</a>). When the timer hits 0 it will announce the decision and flash a specific color for you. Execute the decision and then prepare for you next rep.</h4>
+            <div className="text-center w-400px m-auto"><h3>Directions</h3>
+                <ol>
+                    <li>Put your headphones on or put your mobile device where you can see it.</li><br/>
+                    <li>Start you workout and begin performing a repetitive dribble-move as your timer counts down (ie. <a
+                        target="_blank" rel="nofollow noreferrer noopener"
+                        href="https://www.youtube.com/watch?v=D2hhRG2Hda4?t=30">scissor dribble</a>).</li><br/>
+                    <li>When the timer hits 0 it will announce the exercise and flash a specific color for you. Execute the decision and then prepare for you next rep.</li><br/>
+                    <li>Get ready for your next rep.</li>
+                </ol>
+                </div>
         </div>
         <br/>
         <br/>
-        <div>
+        <p>
             <Link to={URL_WORKOUT}>Start Your First Workout</Link>
-        </div>
-        <div>
-            <Link to={URL_EXERCISES}>Manage Your Exercises</Link>
-        </div>
+        </p>
+        <p>
+            <Link to={URL_EXERCISES}>Load Up Your Own Exercises</Link>
+        </p>
         <div>
             <p>If you have any questions, contact me: kamil@coachkamilhoops.com</p>
         </div>

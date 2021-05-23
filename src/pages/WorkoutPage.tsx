@@ -62,17 +62,23 @@ function WorkoutPage() {
         <SectionNavbar/>
         <h3>Work Out</h3>
         <div>
-            <h3>Decisions: {exercises.map((exercise: Exercise) => {
-                return <div>{exercise.name}</div>
-            })}
-                <Link to={URL_EXERCISES}>(edit)</Link></h3>
+            <h3>Exercises:</h3> {exercises.map((exercise: Exercise) => {
+            return <span>{exercise.name}, </span>
+        })}
+            <Link to={URL_EXERCISES}>(edit)</Link>
         </div>
+        <br/>
+        <br/>
 
         {isRunning ? <div><p>Next repetition in: {timerDisplay} seconds</p></div> : ''}
 
-        {!isRunning ? <div><button onClick={start}>Start Workout</button></div> : ''}
+        {!isRunning ? <div>
+            <button onClick={start}>Start Workout</button>
+        </div> : ''}
 
-        {isRunning ? <div><button onClick={stopWorkout}>STOP Workout</button></div> : ''}
+        {isRunning ? <div>
+            <button onClick={stopWorkout}>STOP Workout</button>
+        </div> : ''}
 
         {currentExercise && isRunning ? <h1>{currentExercise.name}</h1> : ''}
 
