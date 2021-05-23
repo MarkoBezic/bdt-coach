@@ -16,7 +16,7 @@ import TextToSpeech from "../services/TextToSpeech";
 import bball_img from "../images/bball_220x220.png"
 
 function WorkoutPage() {
-    const [currentExercise, setCurrentExercise] = useState<null | Exercise>(null)
+    const [currentExercise, setCurrentExercise] = useState<Exercise | null>(null)
     const [useAudio] = useState(true)
     const [exercises,] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
 
@@ -37,6 +37,9 @@ function WorkoutPage() {
 
     const handleTick = () => {
         const sec = secondsLeft - 1
+        if (sec === 3 || sec === 2) {
+            setCurrentExercise(null)
+        }
         if (sec <= FINAL_NUMBERS_TO_SPEAK) {
             TextToSpeech.speakText(sec.toString(), useAudio)
         }

@@ -1,20 +1,18 @@
 import React, {useEffect} from 'react';
-import CRUDTable,
-{Fields, Field, CreateForm, UpdateForm, DeleteForm,
-} from 'react-crud-table';
+import CRUDTable, {Fields, Field, CreateForm, UpdateForm, DeleteForm,} from 'react-crud-table';
 
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 // Component's Base CSS
 import '../index.css';
-import './AdminPage.css';
+import './ExercisePage.css';
 import SectionNavbar from "../components/SectionNavbar";
 import {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
 import {EXPLAIN_REP_DURATION} from "../AppDefaults";
 
 export default function AdminPage() {
 
-  let storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES)
+  let storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES) || ''
   let exercises = JSON.parse(storageEx) || []
 
   const saveExercises = (exercises) => {
@@ -46,7 +44,7 @@ export default function AdminPage() {
 
   const service = {
     fetchItems: (payload) => {
-      storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES)
+      storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES) || ''
       exercises = JSON.parse(storageEx) || []
 
       let result = Array.from(exercises);
@@ -84,64 +82,61 @@ export default function AdminPage() {
   };
 
   const styles = {
-    container: { margin: 'auto', width: 'fit-content' },
+    container: {margin: 'auto', width: 'fit-content'},
   };
 
   return <div style={styles.container}>
-    <SectionNavbar />
+    <SectionNavbar/>
     <CRUDTable caption="Exercises" fetchItems={payload => service.fetchItems(payload)}>
       <Fields>
         <Field name="id" label="Id" hideFromTable hideInCreateForm hideInUpdateForm readOnly/>
         <Field name="name" label="Name" placeholder="Name"/>
         <Field name="rep_duration" label="Rep Duration (sec.)" placeholder={EXPLAIN_REP_DURATION}/>
         <Field name="color" label="Color" placeholder="#F00"/>
+
       </Fields>
 
       <CreateForm title="Exercise Creation" message="Create a new exercise!" trigger="Create Exercise"
-        onSubmit={exercise => service.create(exercise)} submitText="Create"
-        validate={(values) => {
-          const errors = {};
-          if (!values.name) {
-            errors.name = 'Please provide the exercise\'s name';
-          }
+                  onSubmit={exercise => service.create(exercise)} submitText="Create"
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.name) {
+                      errors.name = 'Please provide the exercise\'s name';
+                    }
 
-          if (!values.rep_duration) {
-            errors.rep_duration = 'Please provide a rep duration';
-          }
+                    if (!values.rep_duration) {
+                      errors.rep_duration = 'Please provide a rep duration';
+                    }
 
-          return errors;
-        }}
+                    return errors;
+                  }}
       />
 
       <UpdateForm title="Exercise Update Process" message="Update exercise" trigger="Update"
-        onSubmit={exercise => service.update(exercise)} submitText="Update"
-        validate={(values) => {
-          const errors = {};
+                  onSubmit={exercise => service.update(exercise)} submitText="Update"
+                  validate={(values) => {
+                    const errors = {};
 
-          if (!values.name) {
-            errors.name = 'Please provide the exercise\'s name';
-          }
+                    if (!values.name) {
+                      errors.name = 'Please provide the exercise\'s name';
+                    }
 
-          if (!values.rep_duration) {
-            errors.rep_duration = 'Please provide a rep duration';
-          }
+                    if (!values.rep_duration) {
+                      errors.rep_duration = 'Please provide a rep duration';
+                    }
 
-          return errors;
-        }}
+                    return errors;
+                  }}
       />
 
-      <DeleteForm title="Exercise Delete Process" message="Are you sure you want to delete the exercise?" trigger="Delete"
-        onSubmit={exercise => service.delete(exercise)} submitText="Delete"
-        validate={(values) => {
-          const errors = {};
-          if (!values.id) {
-            errors.id = 'Please, provide id';
-          }
-          return errors;
-        }}
+      <DeleteForm title="Exercise Delete Process" message="Are you sure you want to delete the exercise?"
+                  trigger="Delete"
+                  onSubmit={exercise => service.delete(exercise)} submitText="Delete"
+                  validate={(values) => {
+                    const errors = {};
+                    return errors;
+                  }}
       />
     </CRUDTable>
   </div>
 };
-
-AdminPage.propTypes = {};

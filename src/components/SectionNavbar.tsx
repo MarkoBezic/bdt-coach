@@ -10,8 +10,6 @@ export default function SectionNavbar(props: any) {
             <NavLink exact to={URL_WORKOUT}>Work Out</NavLink>
             &nbsp; | &nbsp;
             <NavLink exact to={URL_EXERCISES}>Exercises</NavLink>
-            &nbsp; | &nbsp;
-            <NavLink exact to="/admin">Admin</NavLink>
         </div>
     </React.Fragment>
 }

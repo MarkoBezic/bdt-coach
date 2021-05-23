@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {URL_WORKOUT} from "../AppDefaults";
+import {URL_EXERCISES, URL_WORKOUT} from "../AppDefaults";
 
 import SectionNavbar from "../components/SectionNavbar";
 import {Link} from 'react-router-dom';
@@ -18,6 +18,9 @@ function HowItWorksPage() {
         <br/>
         <div>
             <Link to={URL_WORKOUT}>Start Your First Workout</Link>
+        </div>
+        <div>
+            <Link to={URL_EXERCISES}>Manage Your Exercises</Link>
         </div>
     </React.Fragment>
 }

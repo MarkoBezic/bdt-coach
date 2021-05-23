@@ -3,10 +3,9 @@ import React from 'react';
 import './App.css';
 import WorkoutPage from "./pages/WorkoutPage";
 import {Switch, Route} from "react-router-dom";
-import ExercisesPage from "./pages/ExercisesPage";
 
 import { enableAutoTTS } from 'enable-auto-tts';
-import AdminPage from "./pages/AdminPage";
+import AdminPage from "./pages/ExercisePage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import {URL_EXERCISES, URL_HOME, URL_WORKOUT} from "./AppDefaults";
 
@@ -16,12 +15,8 @@ function App() {
     return (
         <React.Fragment>
             <Switch>
-                <Route path="/admin">
-                    <AdminPage/>
-                </Route>
-
                 <Route path={URL_EXERCISES}>
-                    <ExercisesPage/>
+                    <AdminPage/>
                 </Route>
 
                 <Route path={URL_WORKOUT}>
