@@ -12,19 +12,19 @@ export const DEFAULT_EXERCISES_ARR: Array<Exercise> = [
         id: uuidv4(),
         name: "Shoot",
         rep_duration: 8,
-        color: '#F00',
+        color: '#FF0000',
     },
     {
         id: uuidv4(),
         name: "Pass",
         rep_duration: 3,
-        color: '#0F0',
+        color: '#80ff00',
     },
     {
         id: uuidv4(),
         name: "Drive",
         rep_duration: 7,
-        color: '#00F',
+        color: '#0000FF',
     }
 ]
 export const FINAL_NUMBERS_TO_SPEAK: number = 3
