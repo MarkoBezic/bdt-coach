@@ -10,6 +10,24 @@ import SectionNavbar from "../components/SectionNavbar";
 import {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
 import {EXPLAIN_REP_DURATION} from "../AppDefaults";
 
+const DropdownRenderer = ({ field }) => (
+  <select
+    name={field.name}
+    value={field.value}
+    onChange={field.onChange}
+  >
+    <option value="#0000FF">Blue</option>
+    <option value="#000000">Black</option>
+    <option value="#00FFFF">Cyan</option>
+    <option value="#80ff00">Green</option>
+    <option value="#FF00FF">Magenta</option>
+    <option value="#FFC000">Orange</option>
+    <option value="#6600FF">Purple</option>
+    <option value="#FF0000">Red</option>
+    <option value="#FFFC00">Yellow</option>
+  </select>
+);
+
 export default function AdminPage() {
 
   let storageEx = localStorage.getItem(LOCAL_STORAGE_KEY_EXERCISES) || ''
@@ -92,8 +110,7 @@ export default function AdminPage() {
         <Field name="id" label="Id" hideFromTable hideInCreateForm hideInUpdateForm readOnly/>
         <Field name="name" label="Name" placeholder="Name"/>
         <Field name="rep_duration" label="Rep Duration (sec.)" placeholder={EXPLAIN_REP_DURATION}/>
-        <Field name="color" label="Color" placeholder="#F00"/>
-
+        <Field name="color" label="Color" hideFromTable render={DropdownRenderer} />
       </Fields>
 
       <CreateForm title="Exercise Creation" message="Create a new exercise!" trigger="Create Exercise"
