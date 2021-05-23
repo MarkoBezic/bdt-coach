@@ -22,6 +22,9 @@ function HowItWorksPage() {
         <div>
             <Link to={URL_EXERCISES}>Manage Your Exercises</Link>
         </div>
+        <div>
+            <p>If you have any questions, contact me: info@coachkamilhoops.com</p>
+        </div>
     </React.Fragment>
 }
 
