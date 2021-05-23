@@ -8,7 +8,7 @@ import '../index.css';
 import './ExercisePage.css';
 import SectionNavbar from "../components/SectionNavbar";
 import {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
-import {EXPLAIN_REP_DURATION} from "../AppDefaults";
+import {COLOR_BLUE, COLOR_GREEN, COLOR_RED, DEFAULT_EXERCISES_ARR, EXPLAIN_REP_DURATION} from "../AppDefaults";
 
 const DropdownRenderer = ({ field }) => (
   <select
@@ -16,14 +16,14 @@ const DropdownRenderer = ({ field }) => (
     value={field.value}
     onChange={field.onChange}
   >
-    <option value="#0000FF">Blue</option>
+    <option value={COLOR_BLUE}>Blue</option>
     <option value="#000000">Black</option>
     <option value="#00FFFF">Cyan</option>
-    <option value="#80ff00">Green</option>
+    <option value={COLOR_GREEN}>Green</option>
     <option value="#FF00FF">Magenta</option>
     <option value="#FFC000">Orange</option>
     <option value="#6600FF">Purple</option>
-    <option value="#FF0000">Red</option>
+    <option value={COLOR_RED}>Red</option>
     <option value="#FFFC00">Yellow</option>
   </select>
 );
@@ -36,6 +36,14 @@ export default function AdminPage() {
   const saveExercises = (exercises) => {
     const exercisesAsString = JSON.stringify(exercises)
     localStorage.setItem(LOCAL_STORAGE_KEY_EXERCISES, exercisesAsString);
+  }
+
+  const resetExercises = () => {
+    const confirmed = window.confirm('Do you want to reset the exercises to the initial ones?')
+    if(confirmed) {
+      saveExercises(DEFAULT_EXERCISES_ARR)
+      window.location.reload()
+    }
   }
 
   const SORTERS = {
@@ -105,15 +113,15 @@ export default function AdminPage() {
 
   return <div style={styles.container}>
     <SectionNavbar/>
-    <CRUDTable caption="Exercises" fetchItems={payload => service.fetchItems(payload)}>
+    <CRUDTable fetchItems={payload => service.fetchItems(payload)}>
       <Fields>
-        <Field name="id" label="Id" hideFromTable hideInCreateForm hideInUpdateForm readOnly/>
-        <Field name="name" label="Name" placeholder="Name"/>
-        <Field name="rep_duration" label="Rep Duration (sec.)" placeholder={EXPLAIN_REP_DURATION}/>
+        <Field name="id" label="Id" hideFromTable hideInCreateForm hideInUpdateForm readOnly sortable="false"/>
+        <Field name="name" label="Name" placeholder="Name" sortable={false}/>
+        <Field name="rep_duration" label="Rep Duration (sec.)" placeholder={EXPLAIN_REP_DURATION} sortable={false} type="number" />
         <Field name="color" label="Color" hideFromTable render={DropdownRenderer} />
       </Fields>
 
-      <CreateForm title="Exercise Creation" message="Create a new exercise!" trigger="Create Exercise"
+      <CreateForm title="Create Exercise" trigger="Create Exercise"
                   onSubmit={exercise => service.create(exercise)} submitText="Create"
                   validate={(values) => {
                     const errors = {};
@@ -129,7 +137,7 @@ export default function AdminPage() {
                   }}
       />
 
-      <UpdateForm title="Exercise Update Process" message="Update exercise" trigger="Update"
+      <UpdateForm title="Update the Exercise" trigger="Update"
                   onSubmit={exercise => service.update(exercise)} submitText="Update"
                   validate={(values) => {
                     const errors = {};
@@ -146,7 +154,7 @@ export default function AdminPage() {
                   }}
       />
 
-      <DeleteForm title="Exercise Delete Process" message="Are you sure you want to delete the exercise?"
+      <DeleteForm title="Delete Exercise" message="Are you sure you want to delete the exercise?"
                   trigger="Delete"
                   onSubmit={exercise => service.delete(exercise)} submitText="Delete"
                   validate={(values) => {
@@ -155,5 +163,9 @@ export default function AdminPage() {
                   }}
       />
     </CRUDTable>
+    <br/>
+    <div>
+      <button onClick={resetExercises}>Reset to Initial Exercises</button>
+    </div>
   </div>
 };

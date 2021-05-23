@@ -6,25 +6,29 @@ export const URL_HOME = "/"
 export const URL_WORKOUT = "/workout"
 export const URL_EXERCISES = "/exercises"
 
+export const COLOR_RED = "#FF0000"
+export const COLOR_GREEN = "#80ff00"
+export const COLOR_BLUE = "#0000FF"
+
 export const INITIAL_SECONDS_BETWEEN_REPS: number = 5
 export const DEFAULT_EXERCISES_ARR: Array<Exercise> = [
     {
         id: uuidv4(),
-        name: "Shoot",
-        rep_duration: 8,
-        color: '#FF0000',
+        name: "Shot",
+        rep_duration: 10,
+        color: COLOR_RED,
     },
     {
         id: uuidv4(),
-        name: "Pass",
-        rep_duration: 3,
-        color: '#80ff00',
+        name: "Lay Up",
+        rep_duration: 10,
+        color: COLOR_GREEN,
     },
     {
         id: uuidv4(),
-        name: "Drive",
-        rep_duration: 7,
-        color: '#0000FF',
+        name: "Pull Up",
+        rep_duration: 10,
+        color: COLOR_BLUE,
     }
 ]
 export const FINAL_NUMBERS_TO_SPEAK: number = 3
