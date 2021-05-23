@@ -57,15 +57,16 @@ function WorkoutPage() {
     const logoClassNames = isRunning ? "App-logo App-logo-animate" : "App-logo"
 
     const timerDisplay = secondsLeft;
+    const exerciseNames: Array<string> = exercises.map((exercise: Exercise) => {
+        return exercise.name
+    })
+
 
     return <React.Fragment>
         <SectionNavbar/>
-        <h3>Work Out</h3>
         <div>
-            <h3>Exercises:</h3> {exercises.map((exercise: Exercise) => {
-            return <span>{exercise.name}, </span>
-        })}
-            <Link to={URL_EXERCISES}>(edit)</Link>
+            <h3>Exercises during Work Out:</h3> {exerciseNames.join(", ")}
+            &nbsp;<Link to={URL_EXERCISES}>(edit)</Link>
         </div>
         <br/>
         <br/>
