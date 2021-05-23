@@ -1,11 +1,15 @@
 import React from 'react'
 
-import {URL_EXERCISES, URL_WORKOUT} from "../AppDefaults";
+import {DEFAULT_EXERCISES_ARR, URL_EXERCISES, URL_WORKOUT} from "../AppDefaults";
 
 import SectionNavbar from "../components/SectionNavbar";
 import {Link} from 'react-router-dom';
+import useLocalStorage, {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
 
 function HowItWorksPage() {
+
+    const [exercises,] = useLocalStorage(LOCAL_STORAGE_KEY_EXERCISES, DEFAULT_EXERCISES_ARR)
+
     return <React.Fragment>
         <SectionNavbar/>
         <div>
@@ -24,12 +28,11 @@ function HowItWorksPage() {
                 </div>
         </div>
         <br/>
-        <br/>
         <p>
-            <Link to={URL_WORKOUT}>Start Your First Workout</Link>
+            <button><Link className="button" to={URL_WORKOUT}>Start Your First Workout</Link></button>
         </p>
         <p>
-            <Link to={URL_EXERCISES}>Load Up Your Own Exercises</Link>
+            <button><Link to={URL_EXERCISES}>Load Up Your Own Exercises</Link></button>
         </p>
         <div>
             <p>If you have any questions, contact me: kamil@coachkamilhoops.com</p>
