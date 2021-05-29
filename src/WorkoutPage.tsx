@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 
 import {DEFAULT_EXERCISES_ARR, DEFAULT_SECONDS_BETWEEN_REPS, FINAL_NUMBERS_TO_SPEAK} from "./AppDefaults";
 
@@ -18,6 +18,30 @@ function WorkoutPage(props: any) {
     const [exercises, setExercises] = useLocalStorage('bdt_exercises_arr', DEFAULT_EXERCISES_ARR)
 
     const [repDuration, setRepDuration] = useLocalStorage('bdt_rep_duration_int', DEFAULT_SECONDS_BETWEEN_REPS)
+
+
+    const setBackgroundColor = useCallback(
+        () => {
+                if (currentExercise === "Drive") {
+                    document.body.style.backgroundColor = "limegreen"
+                } else if (currentExercise === "Shoot") {
+                    document.body.style.backgroundColor = "dodgerblue"
+                }else if (currentExercise === "Pass") {
+                    document.body.style.backgroundColor = "yellow"
+                } else if (currentExercise === null) {
+                    document.body.style.backgroundColor = "";
+                }
+        },
+        [currentExercise],
+    )
+
+
+    useEffect(() => {
+       setBackgroundColor()
+        return () => {
+            document.body.style.backgroundColor = "null";
+        }
+    }, [setBackgroundColor])
 
     const {secondsLeft, setSecondsLeft, isRunning, start, stop} = useTimer({
         duration: repDuration,
@@ -61,7 +85,7 @@ function WorkoutPage(props: any) {
 
     return <React.Fragment>
         <SectionNavbar />
-        <div>
+        <div className="bg-blue">
             <h1>Basketball Decision Trainer</h1>
             <h2>Practice Your Decision Making When You're Working Out Alone (1v0)</h2>
             <hr/>
