@@ -8,7 +8,14 @@ import '../index.css';
 import './ExercisePage.css';
 import SectionNavbar from "../components/SectionNavbar";
 import {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
-import {COLOR_BLUE, COLOR_GREEN, COLOR_RED, DEFAULT_EXERCISES_ARR, EXPLAIN_REP_DURATION} from "../AppDefaults";
+import {
+  COLOR_BLUE,
+  COLOR_GREEN, COLOR_MAGENTA, COLOR_ORANGE, COLOR_PURPLE,
+  COLOR_RED,
+  DEFAULT_EXERCISES_ARR,
+  EXPLAIN_REP_DURATION,
+  SHARP_SHOOTER_EXERCISES_ARR
+} from "../AppDefaults";
 
 const DropdownRenderer = ({ field }) => (
   <select
@@ -20,9 +27,9 @@ const DropdownRenderer = ({ field }) => (
     <option value="#000000">Black</option>
     <option value="#00FFFF">Cyan</option>
     <option value={COLOR_GREEN}>Green</option>
-    <option value="#FF00FF">Magenta</option>
-    <option value="#FFC000">Orange</option>
-    <option value="#6600FF">Purple</option>
+    <option value={COLOR_MAGENTA}>Magenta</option>
+    <option value={COLOR_ORANGE}>Orange</option>
+    <option value={COLOR_PURPLE}>Purple</option>
     <option value={COLOR_RED}>Red</option>
     <option value="#FFFC00">Yellow</option>
   </select>
@@ -42,6 +49,14 @@ export default function AdminPage() {
     const confirmed = window.confirm('Do you want to reset the exercises to the initial ones?')
     if(confirmed) {
       saveExercises(DEFAULT_EXERCISES_ARR)
+      window.location.reload()
+    }
+  }
+
+  const resetSharpShooterExercises = () => {
+    const confirmed = window.confirm('Want to load the Sharp Shooter Exercises?')
+    if(confirmed) {
+      saveExercises(SHARP_SHOOTER_EXERCISES_ARR)
       window.location.reload()
     }
   }
@@ -121,7 +136,7 @@ export default function AdminPage() {
         <Field name="color" label="Color" hideFromTable render={DropdownRenderer} />
       </Fields>
 
-      <CreateForm title="Create Exercise" trigger="Create Exercise"
+      <CreateForm title="Add New Exercise" trigger="Add New Exercise"
                   onSubmit={exercise => service.create(exercise)} submitText="Create"
                   validate={(values) => {
                     const errors = {};
@@ -165,7 +180,11 @@ export default function AdminPage() {
     </CRUDTable>
     <br/>
     <div>
-      <button onClick={resetExercises}>Reset to Initial Exercises</button>
+      <button onClick={resetExercises}>Load Beginner Exercises</button>
+    </div>
+    <br/>
+    <div>
+      <button onClick={resetSharpShooterExercises}>Load 3-pt Shot Exercises</button>
     </div>
   </div>
 };

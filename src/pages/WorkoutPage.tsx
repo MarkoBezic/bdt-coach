@@ -6,7 +6,7 @@ import {
 } from "../AppDefaults";
 
 import useTimer from "../hooks/useTimer";
-import useLocalStorage, {LOCAL_STORAGE_KEY_DURATION, LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
+import useLocalStorage, {LOCAL_STORAGE_KEY_EXERCISES} from "../hooks/useLocalStorage";
 
 import SectionNavbar from "../components/SectionNavbar";
 import {Link} from 'react-router-dom';
