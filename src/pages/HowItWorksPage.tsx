@@ -18,18 +18,18 @@ function HowItWorksPage() {
             <hr/>
             <div className="text-center w-400px m-auto"><h3>How It Works</h3>
                 <ol style={{textAlign: 'left'}}>
-                    <li>Turn up your audio OR put your device where you can see it.</li><br/>
-                    <li>Start you workout and begin performing a repetitive dribble-move as your timer counts down (ie. <a
+                    <li>Turn up your audio OR put your phone/tablet where you can see it.</li><br/>
+                    <li>Start your workout and perform a repetitive dribble-move as your timer counts down (ie. <a
                         target="_blank" rel="nofollow noreferrer noopener"
-                        href="https://www.youtube.com/watch?v=D2hhRG2Hda4?t=30">scissor dribble</a>).</li><br/>
-                    <li>When the timer ends, it will announce the exercise and flash a specific color for you. Execute the exercise and then prepare for you next rep.</li><br/>
-                    <li>Get ready for your next rep.</li>
+                        href="https://www.youtube.com/watch?v=D2hhRG2Hda4?t=30s">scissor dribble</a> or float dribble).</li><br/>
+                    <li>When the timer ends, perform the exercise that is announced/shown.</li><br/>
+                    <li>Perform a repetitive move and get ready for your next rep.</li>
                 </ol>
                 </div>
         </div>
         <br/>
         <p>
-            <button><Link className="button" to={URL_WORKOUT}>Start Your First Workout</Link></button>
+            <button><Link className="button" to={URL_WORKOUT}>Start Your Workout</Link></button>
         </p>
         <p>
             <button><Link to={URL_EXERCISES}>Load Up Your Own Exercises</Link></button>
