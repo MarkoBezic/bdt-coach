@@ -32,7 +32,7 @@ function HowItWorksPage() {
             <button><Link className="button" to={URL_WORKOUT}>Start Your Workout</Link></button>
         </p>
         <p>
-            <button><Link to={URL_EXERCISES}>Load Up Your Own Exercises</Link></button>
+            <button><Link to={URL_EXERCISES}>Load Your Own Exercises</Link></button>
         </p>
         <div>
             <p>If you have any questions, contact me: kamil@coachkamilhoops.com</p>
